@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.junit.Before;
+import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,6 +23,14 @@ import static org.junit.Assert.assertEquals;
 @CassandraDataSet
 @EmbeddedCassandra
 public class CassandraStartAndLoadWithCQLDatasetRootLocationAnnotationTest {
+
+  @Before
+  public void initialize() {
+      System.setProperty("cassandra.unsafesystem", "true");
+      int EMBEDDED_TIME_OUT = 90000;
+      EmbeddedCassandraServerHelper.getCluster().getConfiguration().getSocketOptions().setReadTimeoutMillis(EMBEDDED_TIME_OUT);
+      System.out.println("4 EmbeddedCassandraServerHelper EMBEDDED_TIME_OUT = " + EMBEDDED_TIME_OUT);
+  }
 
   @Test
   public void should_work() {

@@ -14,6 +14,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.junit.Before;
+import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,6 +28,14 @@ import static org.junit.Assert.assertEquals;
 @CassandraDataSet
 @EmbeddedCassandra
 public class CassandraStartAndLoadWithSpringDependencyInjectionTest {
+
+  @Before
+  public void initialize() {
+      System.setProperty("cassandra.unsafesystem", "true");
+      int EMBEDDED_TIME_OUT = 90000;
+      EmbeddedCassandraServerHelper.getCluster().getConfiguration().getSocketOptions().setReadTimeoutMillis(EMBEDDED_TIME_OUT);
+      System.out.println("4 EmbeddedCassandraServerHelper EMBEDDED_TIME_OUT = " + EMBEDDED_TIME_OUT);
+  }
 
   @Autowired
   private ValueContainer valueContainer;
