@@ -35,3 +35,4 @@ License :
 This project is licensed under LGPL V3.0 :
 http://www.gnu.org/licenses/lgpl-3.0-standalone.html
 
+"# cassandra-unit" 
