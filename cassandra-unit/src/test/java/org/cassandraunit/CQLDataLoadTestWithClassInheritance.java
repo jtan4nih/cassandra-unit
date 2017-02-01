@@ -4,6 +4,8 @@ import com.datastax.driver.core.ResultSet;
 import org.cassandraunit.dataset.CQLDataSet;
 import org.cassandraunit.dataset.cql.ClassPathCQLDataSet;
 import org.junit.Test;
+import org.junit.Before;
+import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,6 +17,13 @@ import static org.junit.Assert.assertEquals;
  */
 public class CQLDataLoadTestWithClassInheritance extends AbstractCassandraUnit4CQLTestCase {
 
+    @Before
+    public void initialize() {
+        System.setProperty("cassandra.unsafesystem", "true");
+        int EMBEDDED_TIME_OUT = 90000;
+        EmbeddedCassandraServerHelper.getCluster().getConfiguration().getSocketOptions().setReadTimeoutMillis(EMBEDDED_TIME_OUT);
+        System.out.println("1 EmbeddedCassandraServerHelper EMBEDDED_TIME_OUT = " + EMBEDDED_TIME_OUT);
+    }
 
     @Override
     public CQLDataSet getDataSet() {

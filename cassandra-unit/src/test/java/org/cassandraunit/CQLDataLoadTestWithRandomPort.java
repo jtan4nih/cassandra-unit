@@ -7,11 +7,21 @@ import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.Before;
+import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
 
 import com.datastax.driver.core.ResultSet;
 
 @Ignore("May not start multiple cassandras with different configuration in one JVM")
 public class CQLDataLoadTestWithRandomPort {
+
+	@Before
+    public void initialize() {
+		System.setProperty("cassandra.unsafesystem", "true");
+    	int EMBEDDED_TIME_OUT = 90000;
+        EmbeddedCassandraServerHelper.getCluster().getConfiguration().getSocketOptions().setReadTimeoutMillis(EMBEDDED_TIME_OUT);
+        System.out.println("1 EmbeddedCassandraServerHelper EMBEDDED_TIME_OUT = " + EMBEDDED_TIME_OUT);
+    }
 
     @Rule
     public CassandraCQLUnit cassandraCQLUnit = new CassandraCQLUnit(new ClassPathCQLDataSet("cql/simple.cql", "mykeyspace"), 

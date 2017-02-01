@@ -24,6 +24,11 @@ public abstract class BaseCassandraUnit extends ExternalResource {
 
 	@Override
 	protected void before() throws Exception {
+		System.setProperty("cassandra.unsafesystem", "true");
+    	int EMBEDDED_TIME_OUT = 90000;
+        EmbeddedCassandraServerHelper.getCluster().getConfiguration().getSocketOptions().setReadTimeoutMillis(EMBEDDED_TIME_OUT);
+        System.out.println("200 EmbeddedCassandraServerHelper EMBEDDED_TIME_OUT = " + EMBEDDED_TIME_OUT);
+
 		/* start an embedded Cassandra */
 		if (configurationFileName != null) {
 			EmbeddedCassandraServerHelper.startEmbeddedCassandra(configurationFileName, startupTimeoutMillis);

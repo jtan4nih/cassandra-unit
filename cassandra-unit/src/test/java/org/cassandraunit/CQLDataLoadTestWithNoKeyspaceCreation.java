@@ -4,6 +4,8 @@ import com.datastax.driver.core.ResultSet;
 import org.cassandraunit.dataset.cql.ClassPathCQLDataSet;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.Before;
+import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -15,6 +17,14 @@ import static org.junit.Assert.assertEquals;
  *
  */
 public class CQLDataLoadTestWithNoKeyspaceCreation {
+
+    @Before
+    public void initialize() {
+        System.setProperty("cassandra.unsafesystem", "true");
+        int EMBEDDED_TIME_OUT = 90000;
+        EmbeddedCassandraServerHelper.getCluster().getConfiguration().getSocketOptions().setReadTimeoutMillis(EMBEDDED_TIME_OUT);
+        System.out.println("1 EmbeddedCassandraServerHelper EMBEDDED_TIME_OUT = " + EMBEDDED_TIME_OUT);
+    }
 
     @Rule
     public CassandraCQLUnit cassandraCQLUnit = new CassandraCQLUnit(new ClassPathCQLDataSet("cql/simpleWithKeyspaceCreation.cql", false, "mykeyspace"));

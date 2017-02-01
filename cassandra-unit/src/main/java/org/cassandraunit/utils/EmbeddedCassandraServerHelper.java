@@ -88,6 +88,15 @@ public class EmbeddedCassandraServerHelper {
         copy(yamlFile, tmpDir);
         File file = new File(tmpDir + yamlFile);
         readAndAdaptYaml(file);
+
+        System.setProperty("cassandra.unsafesystem", "true");
+        int EMBEDDED_TIME_OUT = 90000;
+        try {
+            EmbeddedCassandraServerHelper.getCluster().getConfiguration().getSocketOptions().setReadTimeoutMillis(EMBEDDED_TIME_OUT);
+            System.out.println("300 EmbeddedCassandraServerHelper EMBEDDED_TIME_OUT = " + EMBEDDED_TIME_OUT);
+        } catch(Exception e) {
+            System.out.println("300 EmbeddedCassandraServerHelper " + e);
+        } 
         startEmbeddedCassandra(file, tmpDir, timeout);
     }
 
